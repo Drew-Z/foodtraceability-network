@@ -15,7 +15,7 @@
 /**
  * Sample access control list.
  */
-rule EverybodyCanReadEverything {
+/*rule EverybodyCanReadEverything {
     description: "Allow all participants read access to all resources"
     participant: "org.foodtraceability.network.SampleParticipant"
     operation: READ
@@ -38,6 +38,49 @@ rule OwnerHasFullAccessToTheirAssets {
     resource(r): "org.foodtraceability.network.SampleAsset"
     condition: (r.owner.getIdentifier() === p.getIdentifier())
     action: ALLOW
+}*/
+
+rule TraderSeeUpdateThemselvesOnly {
+  description: "Trader can see and update their own record only"
+  participant(t): "org.foodtraceability.network.Trader"
+  operation: READ, UPDATE
+  resource(v): "org.foodtraceability.network.Trader"
+  condition: (v.getIdentifier() == t.getIdentifier())
+  action: ALLOW
+}
+
+rule TraderSeeTheirFarmProducts {
+  description: "Trader can see/work with their own FarmProducts"
+  participant(t): "org.foodtraceability.network.Trader"
+  operation: ALL
+  resource(c): "org.foodtraceability.network.FarmProduct"
+  condition: (c.owner.getIdentifier() == t.getIdentifier())
+  action: ALLOW
+}
+
+rule EnableTradeTxn {
+    description: "Enable Traders to submit transactions"
+    participant: "org.foodtraceability.network.Trader"
+    operation: ALL
+    resource: "org.foodtraceability.network.Trade"
+    action: ALLOW
+}
+
+rule TradersSeeOwnHistoryOnly {
+  description: "Traders should be able to see the history of their own transactions only"
+  participant(t): "org.foodtraceability.network.Trader"
+  operation: READ
+  resource(v): "org.hyperledger.composer.system.HistorianRecord"
+  condition: (v.participantInvoking.getIdentifier() != t.getIdentifier())
+  action: DENY
+}
+
+rule RegulatorSeeThemselves {
+  description: "Regulators can see and update their own record"
+  participant: "org.foodtraceability.network.Regulator"
+  operation: READ, UPDATE
+  resource: "org.foodtraceability.network.Regulator"
+  action: ALLOW
 }
 
 rule SystemACL {

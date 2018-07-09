@@ -47,7 +47,7 @@ event SampleEvent {
 //添加一个注释
 namespace org.foodtransaction.network
 
-asset FarmProducts identified by productId {
+asset FarmProduct identified by productId {
   o String productId  //每次生产自动产生
   o ProductType type  //农产品种类
   o String picHash    //图片hash值
@@ -69,7 +69,7 @@ participant Trader extends User {
 }
 
 transaction Trade {
-  -->FarmProducts farmProducts
+  -->FarmProduct farmProduct
   -->Trader newOwner
 }
 
@@ -79,5 +79,5 @@ enum ProductType {
 }
 
 event TradeNotification {
-  -->FarmProducts farmProduct
+  -->FarmProduct farmProduct
 }
