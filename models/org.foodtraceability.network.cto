@@ -16,7 +16,7 @@
  * Write your model definitions here
  */
 
-namespace org.foodtraceability.network
+/*namespace org.foodtraceability.network
 
 participant SampleParticipant identified by participantId {
   o String participantId
@@ -39,4 +39,45 @@ event SampleEvent {
   --> SampleAsset asset
   o String oldValue
   o String newValue
+}
+*/
+/**
+ * 初步构想
+ */
+//添加一个注释
+namespace org.foodtransaction.network
+
+asset FarmProducts identified by productId {
+  o String productId  //每次生产自动产生
+  o ProductType type  //农产品种类
+  o String picHash    //图片hash值
+  o DateTime time     //生产时间
+  o String producer   //生产者
+  -->Trader owner
+}
+
+abstract participant User identified by userId {
+  o String userId
+  o String name
+  o String tel
+}
+
+participant Regulator extends User{
+}
+
+participant Trader extends User {
+}
+
+transaction Trade {
+  -->FarmProducts farmProducts
+  -->Trader newOwner
+}
+
+enum ProductType {
+  o APPLE
+  o ORANGE
+}
+
+event TradeNotification {
+  -->FarmProducts farmProduct
 }
