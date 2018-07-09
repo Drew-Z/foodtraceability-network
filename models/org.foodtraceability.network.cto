@@ -44,8 +44,8 @@ event SampleEvent {
 /**
  * 初步构想
  */
-//添加一个注释
-namespace org.foodtransaction.network
+
+namespace org.foodtraceability.network
 
 asset FarmProduct identified by productId {
   o String productId  //每次生产自动产生

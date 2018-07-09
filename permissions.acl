@@ -83,6 +83,14 @@ rule RegulatorSeeThemselves {
   action: ALLOW
 }
 
+rule RegTransView {
+    description: "Grant Regulator full access to Trade Transactions"
+    participant: "org.foodtraceability.network.Regulator"
+    operation: ALL
+    resource: "org.foodtraceability.network.Trade"
+    action: ALLOW
+}
+
 rule SystemACL {
   description:  "System ACL to permit all access"
   participant: "org.hyperledger.composer.system.Participant"
