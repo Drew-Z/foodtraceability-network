@@ -52,22 +52,38 @@ asset FarmProduct identified by productId {
   o ProductType type  //农产品种类
   o String picHash    //图片hash值
   o DateTime time     //生产时间
-  o String producer   //生产者
-  -->Trader owner
+  --> Farm farm
+  --> Trader owner
+}
+asset Farm identified by FarmId {
+  o String FarmId
+  o String address
+  o String pic
 }
 
-abstract participant User identified by userId {
+participant User identified by userId {
   o String userId
   o String name
   o String tel
 }
 
-participant Regulator extends User{
+participant Regulator identified by RegulatorId{
+  o String RegulatorId
+  o String name
 }
 
-participant Trader extends User {
+participant Trader identified by TraderId {
+  o String TraderId
+  o String name
+  o String address
 }
-
+//农民对应一个或多个生产地
+participant Farmer identified by FarmerId {
+  o String FarmerId
+  o String name
+  o String cardId
+  --> Farm[] farm
+}
 transaction Trade {
   -->FarmProduct farmProduct
   -->Trader newOwner
